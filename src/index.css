@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,700;0,900&display=swap');
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  font-family: 'Public Sans', sans-serif;
+  background: #f0f0f0;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 32px 0;
+}
