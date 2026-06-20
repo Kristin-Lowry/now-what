@@ -1,0 +1,52 @@
+import Anthropic from '@anthropic-ai/sdk'
+import { readFileSync } from 'fs'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+
+const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const __dir = dirname(fileURLToPath(import.meta.url))
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).end()
+
+  const { age, weather, location, preference, venues = [], events = [], previousSuggestions = [] } = req.body
+
+  const systemPrompt = readFileSync(join(__dir, '..', 'src', 'prompts', 'systemPrompt.txt'), 'utf8')
+    .replace(/\[age\]/g, age ?? 'unknown')
+    .replace(/\[preference\]/g, preference === 'indoor' ? 'INDOOR' : 'OUTDOOR')
+
+  let nearbyContext
+  if (events.length > 0) {
+    nearbyContext = 'Nearby events this weekend:\n' + events.map(e =>
+      `- ${e.name}${e.venue ? ` at ${e.venue}` : ''}${e.address ? `, ${e.address}` : ''} (${e.time})`
+    ).join('\n')
+  } else if (venues.length > 0) {
+    nearbyContext = 'Nearby venues:\n' + venues.map(v => `- ${v.name} (${v.address})`).join('\n')
+  } else {
+    nearbyContext = 'Nearby venues: none found'
+  }
+
+  const userMessage = [
+    `Child's age: ${age ?? 'unknown'}`,
+    `Current weather: ${weather ?? 'unknown'}`,
+    `Location: ${location ?? 'unknown'}`,
+    `Parent's intention: ${preference === 'indoor' ? 'Indoor — staying in' : 'Outdoor — going out'}`,
+    nearbyContext,
+    previousSuggestions.length
+      ? `Already suggested this session (do not repeat):\n${previousSuggestions.map((s, i) => `${i + 1}. ${s}`).join('\n')}`
+      : null,
+  ].filter(Boolean).join('\n')
+
+  try {
+    const message = await client.messages.create({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userMessage }],
+    })
+    res.json({ suggestion: message.content[0].text })
+  } catch (err) {
+    console.error('[api] Claude error:', err)
+    res.status(500).json({ error: 'Claude API call failed' })
+  }
+}
