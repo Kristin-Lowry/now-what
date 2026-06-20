@@ -1,16 +1,127 @@
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,700;0,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,700;0,900&display=swap');
 @import "tailwindcss";
 
-body {
+html, body {
   margin: 0;
+  min-height: 100vh;
   font-family: 'Public Sans', sans-serif;
-  background: #f0f0f0;
+  background: #FFEE8C;
 }
 
 #root {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   min-height: 100vh;
-  padding: 32px 0;
+}
+
+@media (min-width: 768px) {
+  html, body {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #root {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 390px;
+  min-height: 100vh;
+  position: relative;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+.location-input::placeholder {
+  color: #969696;
+}
+
+.age-dropdown {
+  scrollbar-width: none;
+}
+.age-dropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.suggestion-text {
+  padding: 72px 18px 16px;
+}
+
+.suggestion-p {
+  font-size: 32px;
+  line-height: 38px;
+}
+
+@media (min-width: 768px) {
+  .suggestion-text {
+    padding: 72px 80px 16px;
+    text-align: center;
+  }
+}
+
+/* Mobile overrides — must come after all base rules */
+@media (max-width: 767px) {
+  .onboarding-screen {
+    margin-top: -100px;
+  }
+  .onboarding-headline {
+    transform: translateY(50px);
+  }
+  .onboarding-toggle {
+    left: 24px !important;
+    width: 346px;
+    justify-content: space-between;
+  }
+  .onboarding-disclaimer {
+    transform: translateY(-40px);
+  }
+  .onboarding-form-block {
+    transform: translateY(-20px);
+  }
+  .main-nowwhat-btn {
+    position: absolute;
+    top: 516px;
+    left: 0;
+    right: 0;
+  }
+  /* top: 546px + 88px inline padding-top = 634px visual position, matching onboarding disclaimer */
+  .main-disclaimer {
+    position: absolute;
+    top: 546px;
+    left: 0;
+    right: 0;
+  }
+  .suggestion-text {
+    text-align: center;
+    padding: 0 18px;
+  }
+  .suggestion-p {
+    font-size: clamp(20px, 6.5vw, 30px);
+    line-height: 1.35;
+  }
+  .main-content-spacer {
+    display: none;
+  }
+  .main-content-group {
+    position: absolute;
+    top: 138px;
+    height: 378px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
 }
