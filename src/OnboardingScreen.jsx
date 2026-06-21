@@ -107,18 +107,19 @@ export default function OnboardingScreen({ onNext }) {
     if (!coords && location.trim()) {
       try { coords = await geocodeText(location.trim()) } catch {}
     }
-    let venues = [], events = []
+    let venues = [], events = [], weatherAlert = null
     if (coords) {
       try {
         const r = await fetch(`/api/places?lat=${coords.lat}&lng=${coords.lng}&preference=${preference}`)
         const data = await r.json()
         venues = data.venues || []
         events = data.events || []
+        weatherAlert = data.weatherAlert || null
       } catch {}
     }
 
     localStorage.setItem('now-what:prefs', JSON.stringify({ selectedAge, location, preference, coords }))
-    onNext({ coords, location, preference, selectedAge, venues, events })
+    onNext({ coords, location, preference, selectedAge, venues, events, weatherAlert })
   }
 
   return (

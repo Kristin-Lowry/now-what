@@ -9,7 +9,7 @@ const __dir = dirname(fileURLToPath(import.meta.url))
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
-  const { age, weather, location, preference, venues = [], events = [], previousSuggestions = [] } = req.body
+  const { age, weather, location, preference, venues = [], events = [], weatherAlert = null, previousSuggestions = [] } = req.body
 
   const systemPrompt = readFileSync(join(__dir, '..', 'src', 'prompts', 'systemPrompt.txt'), 'utf8')
     .replace(/\[age\]/g, age ?? 'unknown')
@@ -32,6 +32,7 @@ export default async function handler(req, res) {
     `Location: ${location ?? 'unknown'}`,
     `Parent's intention: ${preference === 'indoor' ? 'Indoor — staying in' : 'Outdoor — going out'}`,
     nearbyContext,
+    weatherAlert ? `Active weather alert: ${weatherAlert}` : null,
     previousSuggestions.length
       ? `Already suggested this session (do not repeat):\n${previousSuggestions.map((s, i) => `${i + 1}. ${s}`).join('\n')}`
       : null,

@@ -36,14 +36,15 @@ export default function App() {
       }
       if (saved.coords) {
         console.log('[App] using saved coords:', saved.coords)
-        let venues = [], events = []
+        let venues = [], events = [], weatherAlert = null
         try {
           const r = await fetch(`/api/places?lat=${saved.coords.lat}&lng=${saved.coords.lng}&preference=${saved.preference}`)
           const data = await r.json()
           venues = data.venues || []
           events = data.events || []
+          weatherAlert = data.weatherAlert || null
         } catch {}
-        setPrefs({ ...saved, venues, events })
+        setPrefs({ ...saved, venues, events, weatherAlert })
         setIsReturn(true)
         setShowMain(true)
       } else {
@@ -95,6 +96,7 @@ export default function App() {
               selectedAge={prefs?.selectedAge}
               venues={prefs?.venues}
               events={prefs?.events}
+              weatherAlert={prefs?.weatherAlert}
             />
           </motion.div>
         )}

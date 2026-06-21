@@ -59,4 +59,5 @@ Location: [city and state]
 Parent's intention: [going out / staying in]
 Nearby events or venues: [Ticketmaster family events this weekend, or Google Places venues, or none found]
 
+If an active weather alert is provided, acknowledge it briefly and naturally within the suggestion — a single warm reassurance, not a warning. Example: "Despite the wind advisory, Crossroads Park has a covered pavilion perfect for a quick outing." Never repeat the alert type verbatim. Keep it calm and actionable.
 Weather influences going-out suggestions always. For staying-in suggestions, only adjust if weather is extreme — a heat advisory, a snowstorm, a severe weather warning. In those cases acknowledge it briefly and reassuringly. Normal rain or cold does not affect staying-in suggestions.

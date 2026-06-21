@@ -19,6 +19,20 @@ const PLACES_TYPES = {
   indoor:  ['library', 'community_center', 'museum', 'aquarium', 'shopping_mall', 'bowling_alley'],
 }
 
+async function fetchWeatherAlert(lat, lng) {
+  try {
+    const r = await fetch(`https://api.weather.gov/alerts/active?point=${lat},${lng}`, {
+      headers: { 'User-Agent': 'NowWhat/1.0 (hello@kristinlowry.com)' },
+    })
+    if (!r.ok) return null
+    const data = await r.json()
+    const active = (data.features || []).find(f =>
+      f.properties?.status === 'Actual' && f.properties?.messageType === 'Alert'
+    )
+    return active ? active.properties.event : null
+  } catch { return null }
+}
+
 function getWeekendRange() {
   const now = new Date()
   const day = now.getDay()
@@ -58,7 +72,7 @@ app.get('/api/places', async (req, res) => {
 
   const pref = preference === 'indoor' ? 'indoor' : 'outdoor'
 
-  const [venues, events] = await Promise.all([
+  const [venues, events, weatherAlert] = await Promise.all([
     // Google Places (New) Nearby Search
     fetch('https://places.googleapis.com/v1/places:searchNearby', {
       method: 'POST',
@@ -126,12 +140,12 @@ app.get('/api/places', async (req, res) => {
     })(),
   ])
 
-  console.log('[server] venues:', venues.length, '| events:', events.length)
-  res.json({ venues, events })
+  console.log('[server] venues:', venues.length, '| events:', events.length, '| alert:', weatherAlert || 'none')
+  res.json({ venues, events, weatherAlert })
 })
 
 app.post('/api/suggest', async (req, res) => {
-  const { age, weather, location, preference, venues = [], events = [], previousSuggestions = [] } = req.body
+  const { age, weather, location, preference, venues = [], events = [], weatherAlert = null, previousSuggestions = [] } = req.body
 
   const __dir = dirname(fileURLToPath(import.meta.url))
   const systemPrompt = readFileSync(join(__dir, '..', 'src', 'prompts', 'systemPrompt.txt'), 'utf8')
@@ -155,6 +169,7 @@ app.post('/api/suggest', async (req, res) => {
     `Location: ${location ?? 'unknown'}`,
     `Parent's intention: ${preference === 'indoor' ? 'Indoor — staying in' : 'Outdoor — going out'}`,
     nearbyContext,
+    weatherAlert ? `Active weather alert: ${weatherAlert}` : null,
     previousSuggestions.length
       ? `Already suggested this session (do not repeat):\n${previousSuggestions.map((s, i) => `${i + 1}. ${s}`).join('\n')}`
       : null,

@@ -1,3 +1,17 @@
+async function fetchWeatherAlert(lat, lng) {
+  try {
+    const r = await fetch(`https://api.weather.gov/alerts/active?point=${lat},${lng}`, {
+      headers: { 'User-Agent': 'NowWhat/1.0 (hello@kristinlowry.com)' },
+    })
+    if (!r.ok) return null
+    const data = await r.json()
+    const active = (data.features || []).find(f =>
+      f.properties?.status === 'Actual' && f.properties?.messageType === 'Alert'
+    )
+    return active ? active.properties.event : null
+  } catch { return null }
+}
+
 const PLACES_TYPES = {
   outdoor: ['park', 'playground', 'campground', 'beach', 'botanical_garden'],
   indoor:  ['library', 'community_center', 'museum', 'aquarium', 'shopping_mall', 'bowling_alley'],
@@ -43,7 +57,7 @@ export default async function handler(req, res) {
 
   const pref = preference === 'indoor' ? 'indoor' : 'outdoor'
 
-  const [venues, events] = await Promise.all([
+  const [venues, events, weatherAlert] = await Promise.all([
     fetch('https://places.googleapis.com/v1/places:searchNearby', {
       method: 'POST',
       headers: {
@@ -93,7 +107,9 @@ export default async function handler(req, res) {
         }))
         .catch(() => [])
     })(),
+
+    fetchWeatherAlert(lat, lng),
   ])
 
-  res.json({ venues, events })
+  res.json({ venues, events, weatherAlert })
 }
