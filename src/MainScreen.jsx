@@ -103,7 +103,7 @@ function ReactionButton({ type, selected, onClick }) {
   )
 }
 
-export default function MainScreen({ onBack, coords, location, selectedAge, venues = [], events = [], weatherAlert = null, preference: initialPreference = 'outdoor' }) {
+export default function MainScreen({ onBack, coords, location, selectedAge, venues = [], events = [], weatherAlert = 'Wind Advisory', preference: initialPreference = 'outdoor' }) {
   const [preference, setPreference] = useState(initialPreference)
   const [reaction, setReaction] = useState(null)
   const [weather, setWeather] = useState(null)
