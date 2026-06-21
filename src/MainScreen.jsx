@@ -103,8 +103,7 @@ function ReactionButton({ type, selected, onClick }) {
   )
 }
 
-export default function MainScreen({ onBack, coords, location, selectedAge, venues = [], events = [], weatherAlert: weatherAlertProp = null, preference: initialPreference = 'outdoor' }) {
-  const weatherAlert = weatherAlertProp ?? 'Wind Advisory' // TEST — remove before shipping
+export default function MainScreen({ onBack, coords, location, selectedAge, venues = [], events = [], weatherAlert = null, preference: initialPreference = 'outdoor' }) {
   const [preference, setPreference] = useState(initialPreference)
   const [reaction, setReaction] = useState(null)
   const [weather, setWeather] = useState(null)
@@ -206,10 +205,12 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
       {/* Suggestion text + reaction buttons — centered as a group */}
       <div className="main-content-group">
         {weatherAlert && (
-          <div style={{ maxWidth: 'calc(100% - 48px)', boxSizing: 'border-box', padding: '8px 14px', backgroundColor: '#FFFFFF', border: '1.5px solid #000000', borderRadius: 12, boxShadow: '2px 2px 0px 0px #000000', flexShrink: 0, textAlign: 'center', alignSelf: 'center' }}>
-            <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 20, fontWeight: 400, color: '#000000', margin: 0 }}>
-              ⚠️ {weatherAlert} in your area — check conditions before heading out
-            </p>
+          <div style={{ width: '100%', paddingLeft: 24, paddingRight: 24, boxSizing: 'border-box', flexShrink: 0 }}>
+            <div style={{ width: '100%', boxSizing: 'border-box', padding: '8px 14px', backgroundColor: '#FFFFFF', border: '1.5px solid #000000', borderRadius: 12, boxShadow: '2px 2px 0px 0px #000000', textAlign: 'center' }}>
+              <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 20, fontWeight: 400, color: '#000000', margin: 0 }}>
+                ⚠️ {weatherAlert} in your area — check conditions before heading out
+              </p>
+            </div>
           </div>
         )}
         <div className="suggestion-text" style={{ flexShrink: 0, overflow: 'hidden' }}>
