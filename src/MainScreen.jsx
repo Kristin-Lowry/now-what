@@ -205,9 +205,9 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
       {/* Suggestion text + reaction buttons — centered as a group */}
       <div className="main-content-group">
         {weatherAlert && (
-          <div style={{ width: '100%', paddingLeft: 24, paddingRight: 24, boxSizing: 'border-box', flexShrink: 0 }}>
-            <div style={{ width: '100%', boxSizing: 'border-box', padding: '8px 14px', backgroundColor: '#FFFFFF', border: '1.5px solid #000000', borderRadius: 12, boxShadow: '2px 2px 0px 0px #000000', textAlign: 'center' }}>
-              <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 20, fontWeight: 400, color: '#000000', margin: 0 }}>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center', flexShrink: 0, paddingLeft: 24, paddingRight: 24, boxSizing: 'border-box' }}>
+            <div style={{ padding: '8px 16px', backgroundColor: '#FFFFFF', border: '1.5px solid #000000', borderRadius: 12, boxShadow: '2px 2px 0px 0px #000000', textAlign: 'center' }}>
+              <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 20, fontWeight: 400, color: '#000000', margin: 0, whiteSpace: 'nowrap' }}>
                 ⚠️ {weatherAlert} in your area — check conditions before heading out
               </p>
             </div>
