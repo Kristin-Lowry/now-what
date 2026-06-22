@@ -9,22 +9,15 @@ const __dir = dirname(fileURLToPath(import.meta.url))
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
-  const { age, weather, location, preference, venues = [], events = [], weatherAlert = null, previousSuggestions = [] } = req.body
+  const { age, weather, location, preference, venues = [], weatherAlert = null, previousSuggestions = [] } = req.body
 
   const systemPrompt = readFileSync(join(__dir, '..', 'src', 'prompts', 'systemPrompt.txt'), 'utf8')
     .replace(/\[age\]/g, age ?? 'unknown')
     .replace(/\[preference\]/g, preference === 'indoor' ? 'INDOOR' : 'OUTDOOR')
 
-  let nearbyContext
-  if (events.length > 0) {
-    nearbyContext = 'Nearby events this weekend:\n' + events.map(e =>
-      `- ${e.name}${e.venue ? ` at ${e.venue}` : ''}${e.address ? `, ${e.address}` : ''} (${e.time})`
-    ).join('\n')
-  } else if (venues.length > 0) {
-    nearbyContext = 'Nearby venues:\n' + venues.map(v => `- ${v.name} (${v.address})`).join('\n')
-  } else {
-    nearbyContext = 'Nearby venues: none found'
-  }
+  const nearbyContext = venues.length > 0
+    ? 'Nearby venues:\n' + venues.map(v => `- ${v.name} (${v.address})`).join('\n')
+    : 'Nearby venues: none found'
 
   const userMessage = [
     `Child's age: ${age ?? 'unknown'}`,

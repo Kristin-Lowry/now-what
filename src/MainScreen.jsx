@@ -103,7 +103,7 @@ function ReactionButton({ type, selected, onClick }) {
   )
 }
 
-export default function MainScreen({ onBack, coords, location, selectedAge, venues = [], events = [], weatherAlert = null, preference: initialPreference = 'outdoor' }) {
+export default function MainScreen({ onBack, coords, location, selectedAge, venues = [], weatherAlert = null, preference: initialPreference = 'outdoor' }) {
   const [preference, setPreference] = useState(initialPreference)
   const [reaction, setReaction] = useState(null)
   const [weather, setWeather] = useState(null)
@@ -137,7 +137,7 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
       const res = await fetch('/api/suggest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ age: selectedAge, weather: weatherStr, location, preference, venues, events, weatherAlert, previousSuggestions: suggestionHistory }),
+        body: JSON.stringify({ age: selectedAge, weather: weatherStr, location, preference, venues, weatherAlert, previousSuggestions: suggestionHistory }),
       })
       if (!res.ok) throw new Error('API error')
       const { suggestion: text } = await res.json()
