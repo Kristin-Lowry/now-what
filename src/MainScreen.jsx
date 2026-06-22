@@ -103,8 +103,9 @@ function ReactionButton({ type, selected, onClick }) {
   )
 }
 
-export default function MainScreen({ onBack, coords, location, selectedAge, venues = [], weatherAlert = null, preference: initialPreference = 'outdoor' }) {
+export default function MainScreen({ onBack, coords, location, selectedAge, venues: initialVenues = [], weatherAlert = null, preference: initialPreference = 'outdoor' }) {
   const [preference, setPreference] = useState(initialPreference)
+  const [venues, setVenues] = useState(initialVenues)
   const [reaction, setReaction] = useState(null)
   const [weather, setWeather] = useState(null)
   const [suggestion, setSuggestion] = useState(null)
@@ -127,6 +128,14 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
       })
       .catch((err) => { console.log('[MainScreen] weather fetch error:', err) })
   }, [coords])
+
+  useEffect(() => {
+    if (!coords) return
+    fetch(`/api/places?lat=${coords.lat}&lng=${coords.lng}&preference=${preference}`)
+      .then(r => r.json())
+      .then(data => setVenues(data.venues || []))
+      .catch(() => {})
+  }, [preference, coords])
 
   const fetchSuggestion = async () => {
     if (isLoading) return
