@@ -27,7 +27,8 @@ async function fetchWeatherAlert(lat, lng) {
     if (!r.ok) return null
     const data = await r.json()
     const active = (data.features || []).find(f =>
-      f.properties?.status === 'Actual' && f.properties?.messageType === 'Alert'
+      f.properties?.status === 'Actual' &&
+      (f.properties?.messageType === 'Alert' || f.properties?.messageType === 'Update')
     )
     return active ? active.properties.event : null
   } catch { return null }
