@@ -150,10 +150,10 @@ html, body {
     box-sizing: border-box;
   }
   .alert-banner span {
-    font-size: 13px;
+    font-size: 16px;
   }
   .suggestion-p {
-    font-size: clamp(16px, 4.5vw, 20px);
+    font-size: clamp(18px, 5.5vw, 26px);
     line-height: 1.35;
   }
 }
