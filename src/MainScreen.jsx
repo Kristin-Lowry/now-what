@@ -40,7 +40,11 @@ function ToggleButton({ label, selected, onClick }) {
         justifyContent: 'center',
         flexShrink: 0,
       }}
-      whileTap={PRESS_TAP}
+      animate={{
+        x: selected ? 4 : 0,
+        y: selected ? 4 : 0,
+        boxShadow: selected ? '0px 0px 0px 0px #000000' : '4px 4px 0px 0px #000000',
+      }}
       transition={PRESS_TRANSITION}
       onClick={onClick}
     >
