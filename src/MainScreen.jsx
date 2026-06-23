@@ -208,10 +208,8 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
       <div className="main-content-group">
         {weatherAlert && (
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
-            <div style={{ display: 'inline-block', padding: '8px 28px', backgroundColor: '#FFFFFF', border: '1.5px solid #000000', borderRadius: 12, boxShadow: '2px 2px 0px 0px #000000', maxWidth: 'calc(100% - 48px)' }}>
-              <span style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 20, fontWeight: 400, color: '#000000' }}>
-                ⚠️ {weatherAlert} in your area — check conditions before heading out
-              </span>
+            <div className="alert-banner">
+              <span>⚠️ {weatherAlert} in your area — check conditions before heading out</span>
             </div>
           </div>
         )}

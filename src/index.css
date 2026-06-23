@@ -69,6 +69,22 @@ html, body {
   }
 }
 
+.alert-banner {
+  display: inline-block;
+  padding: 8px 28px;
+  background-color: #FFFFFF;
+  border: 1.5px solid #000000;
+  border-radius: 12px;
+  box-shadow: 2px 2px 0px 0px #000000;
+  max-width: calc(100% - 48px);
+}
+.alert-banner span {
+  font-family: 'Public Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #000000;
+}
+
 /* Mobile overrides — must come after all base rules */
 @media (max-width: 767px) {
   .onboarding-screen {
@@ -123,5 +139,21 @@ html, body {
     align-items: center;
     justify-content: center;
     gap: 16px;
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+  .alert-banner {
+    display: block;
+    width: calc(100% - 48px);
+    text-align: center;
+    padding: 6px 16px;
+    box-sizing: border-box;
+  }
+  .alert-banner span {
+    font-size: 13px;
+  }
+  .suggestion-p {
+    font-size: clamp(16px, 4.5vw, 20px);
+    line-height: 1.35;
   }
 }
