@@ -40,9 +40,6 @@ function ToggleButton({ label, selected, onClick }) {
         justifyContent: 'center',
         flexShrink: 0,
       }}
-      animate={{
-        boxShadow: selected ? '0px 0px 0px 0px #000000' : '4px 4px 0px 0px #000000',
-      }}
       whileTap={PRESS_TAP}
       transition={PRESS_TRANSITION}
       onClick={onClick}
@@ -83,14 +80,12 @@ function ReactionButton({ type, selected, onClick }) {
         backgroundColor: '#FFFFFF',
         border: '1.45px solid #000000',
         borderRadius: 99,
+        boxShadow: '4px 4px 0px 0px #000000',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-      }}
-      animate={{
-        boxShadow: selected ? '0px 0px 0px 0px #000000' : '4px 4px 0px 0px #000000',
       }}
       whileTap={PRESS_TAP}
       transition={PRESS_TRANSITION}
