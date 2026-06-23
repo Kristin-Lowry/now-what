@@ -45,6 +45,7 @@ function ToggleButton({ label, selected, onClick }) {
         y: selected ? 4 : 0,
         boxShadow: selected ? '0px 0px 0px 0px #000000' : '4px 4px 0px 0px #000000',
       }}
+      whileTap={PRESS_TAP}
       transition={PRESS_TRANSITION}
       onClick={onClick}
     >
@@ -95,6 +96,7 @@ function ReactionButton({ type, selected, onClick }) {
         y: selected ? 4 : 0,
         boxShadow: selected ? '0px 0px 0px 0px #000000' : '4px 4px 0px 0px #000000',
       }}
+      whileTap={PRESS_TAP}
       transition={PRESS_TRANSITION}
       onClick={onClick}
     >
