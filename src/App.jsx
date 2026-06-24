@@ -95,6 +95,8 @@ export default function App() {
               selectedAge={prefs?.selectedAge}
               venues={prefs?.venues}
               weatherAlert={prefs?.weatherAlert}
+              rawWeather={prefs?.rawWeather}
+              autoFetch={!isReturn}
             />
           </motion.div>
         )}

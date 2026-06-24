@@ -107,18 +107,21 @@ export default function OnboardingScreen({ onNext }) {
     if (!coords && location.trim()) {
       try { coords = await geocodeText(location.trim()) } catch {}
     }
-    let venues = [], weatherAlert = null
+    let venues = [], weatherAlert = null, rawWeather = null
     if (coords) {
       try {
-        const r = await fetch(`/api/places?lat=${coords.lat}&lng=${coords.lng}&preference=${preference}`)
-        const data = await r.json()
-        venues = data.venues || []
-        weatherAlert = data.weatherAlert || null
+        const [placesData, wxData] = await Promise.all([
+          fetch(`/api/places?lat=${coords.lat}&lng=${coords.lng}&preference=${preference}`).then(r => r.json()),
+          fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lng}&current_weather=true&temperature_unit=fahrenheit`).then(r => r.json()),
+        ])
+        venues = placesData.venues || []
+        weatherAlert = placesData.weatherAlert || null
+        rawWeather = wxData?.current_weather || null
       } catch {}
     }
 
     localStorage.setItem('now-what:prefs', JSON.stringify({ selectedAge, location, preference, coords }))
-    onNext({ coords, location, preference, selectedAge, venues, weatherAlert })
+    onNext({ coords, location, preference, selectedAge, venues, weatherAlert, rawWeather })
   }
 
   return (

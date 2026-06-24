@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Sun, CloudSun, Cloud, CloudRain, CloudSnow, CloudLightning, Wind, MapPin } from 'lucide-react'
 
@@ -100,30 +100,53 @@ function ReactionButton({ type, selected, onClick }) {
   )
 }
 
-export default function MainScreen({ onBack, coords, location, selectedAge, venues: initialVenues = [], weatherAlert = null, preference: initialPreference = 'outdoor' }) {
+export default function MainScreen({ onBack, coords, location, selectedAge, venues: initialVenues = [], weatherAlert = null, rawWeather = null, autoFetch = false, preference: initialPreference = 'outdoor' }) {
   const [preference, setPreference] = useState(initialPreference)
   const [venues, setVenues] = useState(initialVenues)
   const [reaction, setReaction] = useState(null)
-  const [weather, setWeather] = useState(null)
+  const [weather, setWeather] = useState(() => {
+    if (!rawWeather) return null
+    const { temperature, weathercode, windspeed } = rawWeather
+    return { temp: Math.round(temperature), ...getWeatherInfo(weathercode, windspeed) }
+  })
   const [suggestion, setSuggestion] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(autoFetch)
   const [isError, setIsError] = useState(false)
   const [suggestionHistory, setSuggestionHistory] = useState([])
+  const didAutoFetch = useRef(false)
 
+  // Auto-fetch first suggestion on mount (parallel with slide-up animation)
   useEffect(() => {
-    console.log('[MainScreen] coords prop:', coords)
+    if (!autoFetch || didAutoFetch.current) return
+    didAutoFetch.current = true
+    const weatherStr = rawWeather
+      ? `${Math.round(rawWeather.temperature)}° F, ${getWeatherInfo(rawWeather.weathercode, rawWeather.windspeed).label}`
+      : null
+    fetch('/api/suggest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        age: selectedAge, weather: weatherStr, location,
+        preference: initialPreference, venues: initialVenues,
+        weatherAlert, previousSuggestions: [],
+      }),
+    })
+      .then(r => { if (!r.ok) throw new Error(); return r.json() })
+      .then(({ suggestion: text }) => { setSuggestion(text); setSuggestionHistory([text]); setReaction(null) })
+      .catch(() => setIsError(true))
+      .finally(() => setIsLoading(false))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Refresh weather display (icon + temp) — runs in background, doesn't block suggestion
+  useEffect(() => {
     if (!coords) return
-    console.log('[MainScreen] fetching weather for', coords)
-    fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lng}&current_weather=true&temperature_unit=fahrenheit`
-    )
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lng}&current_weather=true&temperature_unit=fahrenheit`)
       .then(r => r.json())
       .then(data => {
-        console.log('[MainScreen] weather data:', data)
         const { temperature, weathercode, windspeed } = data.current_weather
         setWeather({ temp: Math.round(temperature), ...getWeatherInfo(weathercode, windspeed) })
       })
-      .catch((err) => { console.log('[MainScreen] weather fetch error:', err) })
+      .catch(() => {})
   }, [coords])
 
   useEffect(() => {
