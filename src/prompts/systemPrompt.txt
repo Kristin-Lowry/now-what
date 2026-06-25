@@ -50,10 +50,9 @@ When no venues are found and preference is INDOOR, generate a home activity. Dra
 - Books and story-based activities
 - Building and stacking
 - Imaginative play setups
-- Nature brought inside (leaves, pinecones, flowers to explore)
 - Household object exploration (safe kitchen items, containers, spoons)
 
-Previously suggested activities are listed in the session history — use them to determine which categories have already been used, and pick a different category each time. Age-specific safety rules always apply regardless of category.
+Never suggest the same category twice in one session. Before choosing a category, review the session history to identify which categories have already been used, then actively select a different one. Age-specific safety rules always apply regardless of category.
 
 Safety Parameters
 
