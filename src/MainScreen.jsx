@@ -55,55 +55,10 @@ function ToggleButton({ label, selected, onClick }) {
   )
 }
 
-function ThumbsUpIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 12a2 2 0 0 1 2-2h3v12H4a2 2 0 0 1-2-2z" fill="#8C9DFF" stroke="none" />
-      <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" stroke="#000" strokeWidth="1.5" />
-      <path d="M7 10v12" stroke="#000" strokeWidth="1.5" />
-    </svg>
-  )
-}
-
-function ThumbsDownIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17 2h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3z" fill="#8C9DFF" stroke="none" />
-      <path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z" stroke="#000" strokeWidth="1.5" />
-      <path d="M17 14V2" stroke="#000" strokeWidth="1.5" />
-    </svg>
-  )
-}
-
-function ReactionButton({ type, selected, onClick }) {
-  return (
-    <motion.div
-      style={{
-        width: 52,
-        height: 52,
-        backgroundColor: '#FFFFFF',
-        border: '1.45px solid #000000',
-        borderRadius: 99,
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-      }}
-      animate={{ boxShadow: '4px 4px 0px 0px #000000' }}
-      whileTap={PRESS_TAP}
-      transition={PRESS_TRANSITION}
-      onClick={onClick}
-    >
-      {type === 'like' ? <ThumbsUpIcon /> : <ThumbsDownIcon />}
-    </motion.div>
-  )
-}
 
 export default function MainScreen({ onBack, coords, location, selectedAge, venues: initialVenues = [], weatherAlert = null, rawWeather = null, autoFetch = false, preference: initialPreference = 'outdoor' }) {
   const [preference, setPreference] = useState(initialPreference)
   const [venues, setVenues] = useState(initialVenues)
-  const [reaction, setReaction] = useState(null)
   const [weather, setWeather] = useState(() => {
     if (!rawWeather) return null
     const { temperature, weathercode, windspeed } = rawWeather
@@ -132,7 +87,7 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
       }),
     })
       .then(r => { if (!r.ok) throw new Error(); return r.json() })
-      .then(({ suggestion: text }) => { setSuggestion(text); setSuggestionHistory([text]); setReaction(null) })
+      .then(({ suggestion: text }) => { setSuggestion(text); setSuggestionHistory([text]) })
       .catch(() => setIsError(true))
       .finally(() => setIsLoading(false))
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -172,7 +127,6 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
       const { suggestion: text } = await res.json()
       setSuggestion(text)
       setSuggestionHistory(prev => [...prev, text])
-      setReaction(null)
     } catch {
       setIsError(true)
     } finally {
@@ -231,7 +185,7 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
       {/* Spacer — pushes text+reactions to vertical center (desktop) */}
       <div className="main-content-spacer" style={{ flex: 1 }} />
 
-      {/* Suggestion text + reaction buttons — centered as a group */}
+      {/* Suggestion text — centered */}
       <div className="main-content-group">
         {weatherAlert && (
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
@@ -265,10 +219,7 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
           )}
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 38, flexShrink: 0 }}>
-          <ReactionButton type="like" selected={reaction === 'like'} onClick={() => setReaction(r => r === 'like' ? null : 'like')} />
-          <ReactionButton type="dislike" selected={reaction === 'dislike'} onClick={() => setReaction(r => r === 'dislike' ? null : 'dislike')} />
-        </div>
+
       </div>
 
       {/* Spacer — empty space between reactions and button (desktop) */}
