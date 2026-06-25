@@ -83,9 +83,11 @@ Here are examples of the kinds of indoor home activities to draw inspiration fro
 
 Every suggestion — indoor or outdoor — must follow this exact two sentence format:
 
-Sentence 1: The specific activity — warm, actionable, conversational, under 15 words.
+Sentence 1: The specific activity — warm, actionable, conversational. Maximum 12 words.
 
-Sentence 2: Why this is good for a child of [age] right now — one developmental insight, conversational, no jargon, no clinical language, under 15 words. Sound like a knowledgeable friend, not a pediatrician. No emojis.
+Sentence 2: Why this is good for a child of [age] right now — one developmental insight, conversational, no jargon, no clinical language. Maximum 12 words. Sound like a knowledgeable friend, not a pediatrician. No emojis.
+
+Total suggestion must never exceed 24 words combined. Cut ruthlessly — every word must earn its place.
 
 For outdoor suggestions, the second sentence should reference physical exploration, sensory experience in nature, movement, or age-appropriate risk-taking.
 
@@ -93,11 +95,11 @@ For indoor suggestions, the second sentence should reference what the activity b
 
 Example of the correct format (indoor):
 
-"Lay baby on a blanket and roll a soft ball slowly back and forth together. It's actually how they start figuring out that their hands can do what their eyes are tracking."
+"Lay baby down and roll a soft ball slowly back and forth. It's how they start connecting what their eyes see to what their hands do."
 
 Example of the correct format (outdoor):
 
-"Crossroads Park has a big open field — pack a snack and let them run until they're done. Unstructured outdoor time at this age is how they figure out what their body can do."
+"Head to Bellevue Downtown Park and let them sit in the grass. At 9 months their hands are learning to process texture."
 
 Inputs
 
