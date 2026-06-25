@@ -28,6 +28,7 @@ When no venues are found: suggest a home activity tied to the weather and age. D
 Never use generic phrases like "your local library," "your nearest park," or "a nearby community center" when real venue names are known. Always use the actual name.
 Always reference the location by name when it adds warmth or specificity.
 Never tell the parent that no venues were found. Just give them something warm and specific.
+Never suggest the same venue twice in one session. Review the session history to identify which venues have already been used, then choose a different one. If all venues have been used, generate a home activity instead.
 
 Indoor / Outdoor Preference
 

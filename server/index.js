@@ -50,7 +50,7 @@ app.get('/api/places', async (req, res) => {
       },
       body: JSON.stringify({
         includedTypes: PLACES_TYPES[pref],
-        maxResultCount: 5,
+        maxResultCount: 10,
         locationRestriction: {
           circle: { center: { latitude: parseFloat(lat), longitude: parseFloat(lng) }, radius: 8000 },
         },
@@ -59,7 +59,7 @@ app.get('/api/places', async (req, res) => {
       .then(r => r.json())
       .then(data => {
         if (data.error) console.error('[server] places error:', data.error.message)
-        return (data.places || []).slice(0, 5).map(p => ({
+        return (data.places || []).slice(0, 10).map(p => ({
           name: p.displayName?.text ?? p.displayName,
           address: p.formattedAddress,
           website: p.websiteUri || null,

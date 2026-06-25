@@ -35,14 +35,14 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         includedTypes: PLACES_TYPES[pref],
-        maxResultCount: 5,
+        maxResultCount: 10,
         locationRestriction: {
           circle: { center: { latitude: parseFloat(lat), longitude: parseFloat(lng) }, radius: 8000 },
         },
       }),
     })
       .then(r => r.json())
-      .then(data => (data.places || []).slice(0, 5).map(p => ({
+      .then(data => (data.places || []).slice(0, 10).map(p => ({
         name: p.displayName?.text ?? p.displayName,
         address: p.formattedAddress,
         website: p.websiteUri || null,
