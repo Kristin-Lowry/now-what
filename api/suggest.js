@@ -38,7 +38,20 @@ export default async function handler(req, res) {
       system: systemPrompt,
       messages: [{ role: 'user', content: userMessage }],
     })
-    res.json({ suggestion: message.content[0].text })
+    const raw = message.content[0].text
+    const words = raw.trim().split(/\s+/)
+    let suggestion = raw.trim()
+    if (words.length > 30) {
+      const sentences = raw.trim().match(/[^.!?]+[.!?]*/g) || [raw.trim()]
+      suggestion = sentences[0].trim()
+      if (sentences[1] && (suggestion + ' ' + sentences[1].trim()).split(/\s+/).length <= 30) {
+        suggestion += ' ' + sentences[1].trim()
+      }
+      if (suggestion.split(/\s+/).length > 30) {
+        suggestion = words.slice(0, 30).join(' ') + '…'
+      }
+    }
+    res.json({ suggestion })
   } catch (err) {
     console.error('[api] Claude error:', err)
     res.status(500).json({ error: 'Claude API call failed' })

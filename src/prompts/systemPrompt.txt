@@ -108,6 +108,8 @@ Sentence 2: Why this is good for a child of [age] right now — one developmenta
 
 Total suggestion must never exceed 24 words combined. Cut ruthlessly — every word must earn its place.
 
+HARD LIMIT: Every suggestion must be 24 words or fewer total across both sentences combined. Count every word before outputting. If your suggestion exceeds 24 words, rewrite it until it fits. This limit is non-negotiable — never output more than 24 words under any circumstances. Before outputting your suggestion, count the words. If the count exceeds 24, cut words until it fits. Never sacrifice safety information to meet the word count — if a safety note is needed keep it and cut elsewhere.
+
 For outdoor suggestions, the second sentence should reference physical exploration, sensory experience in nature, movement, or age-appropriate risk-taking.
 
 For indoor suggestions, the second sentence should reference what the activity builds or supports developmentally at this age.
