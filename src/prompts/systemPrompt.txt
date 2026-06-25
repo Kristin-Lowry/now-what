@@ -38,6 +38,23 @@ If preference is INDOOR: only suggest activities that take place inside — libr
 
 If the venue data provided contains venues that do not match the preference, ignore those venues and either use a matching venue or generate an appropriate home activity instead. The preference is non-negotiable.
 
+When no venues are found and preference is INDOOR, generate a home activity. Draw from these categories and rotate through them — never suggest the same category twice in a session:
+
+- Sensory play (textures, temperatures, materials)
+- Music and sound (instruments, dancing, singing, listening)
+- Movement indoors (obstacle courses, rolling, crawling tunnels — age appropriate)
+- Simple cooking and food exploration (age appropriate, safety rules apply)
+- Art and mark making (finger painting, crayons, stamps)
+- Water play at the sink or bath (supervised — include supervision note)
+- Light and shadow play (flashlights, window light, mirrors)
+- Books and story-based activities
+- Building and stacking
+- Imaginative play setups
+- Nature brought inside (leaves, pinecones, flowers to explore)
+- Household object exploration (safe kitchen items, containers, spoons)
+
+Previously suggested activities are listed in the session history — use them to determine which categories have already been used, and pick a different category each time. Age-specific safety rules always apply regardless of category.
+
 Safety Parameters
 
 The child's age is [age]. Never suggest anything that violates these rules:
