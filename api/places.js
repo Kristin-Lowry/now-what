@@ -13,9 +13,14 @@ async function fetchWeatherAlert(lat, lng) {
   } catch { return null }
 }
 
-const PLACES_TYPES = {
-  outdoor: ['park', 'playground', 'campground', 'beach', 'botanical_garden'],
-  indoor:  ['library', 'community_center', 'museum', 'aquarium', 'shopping_mall', 'bowling_alley'],
+const PLACE_TYPES = {
+  outdoor: ['park', 'playground', 'campground', 'botanical_garden', 'stadium'],
+  indoor:  ['library', 'community_center', 'museum', 'aquarium', 'bowling_alley', 'movie_theater', 'shopping_mall', 'art_gallery'],
+}
+
+const KEYWORD_SEARCHES = {
+  outdoor: ["farmer's market", 'nature trail', 'splash pad', 'dog park'],
+  indoor:  ['indoor playground', 'indoor pool', "children's museum", 'science center'],
 }
 
 export default async function handler(req, res) {
@@ -24,20 +29,25 @@ export default async function handler(req, res) {
   if (!lat || !lng) return res.json({ venues: [], weatherAlert: null })
 
   const pref = preference === 'indoor' ? 'indoor' : 'outdoor'
-
   const center = { latitude: parseFloat(lat), longitude: parseFloat(lng) }
   const radius = 24140 // 15 miles
 
-  const [typeResults, weatherAlert] = await Promise.all([
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Goog-Api-Key': process.env.GOOGLE_PLACES_API_KEY,
+    'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.websiteUri',
+  }
+  const mapPlace = p => ({
+    name: p.displayName?.text ?? p.displayName,
+    address: p.formattedAddress,
+    website: p.websiteUri || null,
+  })
+
+  const [typeResults, keywordResults, weatherAlert] = await Promise.all([
     Promise.all(
-      PLACES_TYPES[pref].map(type =>
+      PLACE_TYPES[pref].map(type =>
         fetch('https://places.googleapis.com/v1/places:searchNearby', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Goog-Api-Key': process.env.GOOGLE_PLACES_API_KEY,
-            'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.websiteUri',
-          },
+          method: 'POST', headers,
           body: JSON.stringify({
             includedTypes: [type],
             maxResultCount: 2,
@@ -45,11 +55,22 @@ export default async function handler(req, res) {
           }),
         })
           .then(r => r.json())
-          .then(data => (data.places || []).map(p => ({
-            name: p.displayName?.text ?? p.displayName,
-            address: p.formattedAddress,
-            website: p.websiteUri || null,
-          })))
+          .then(data => (data.places || []).map(mapPlace))
+          .catch(() => [])
+      )
+    ),
+    Promise.all(
+      KEYWORD_SEARCHES[pref].map(keyword =>
+        fetch('https://places.googleapis.com/v1/places:searchText', {
+          method: 'POST', headers,
+          body: JSON.stringify({
+            textQuery: keyword,
+            maxResultCount: 2,
+            locationRestriction: { circle: { center, radius } },
+          }),
+        })
+          .then(r => r.json())
+          .then(data => (data.places || []).map(mapPlace))
           .catch(() => [])
       )
     ),
@@ -57,11 +78,13 @@ export default async function handler(req, res) {
   ])
 
   const seen = new Set()
-  const venues = typeResults.flat().filter(v => {
-    if (seen.has(v.name)) return false
-    seen.add(v.name)
-    return true
-  })
+  const venues = [...typeResults.flat(), ...keywordResults.flat()]
+    .filter(v => {
+      if (seen.has(v.name)) return false
+      seen.add(v.name)
+      return true
+    })
+    .slice(0, 10)
 
   res.json({ venues, weatherAlert })
 }
