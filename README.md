@@ -1,16 +1,41 @@
-# React + Vite
+# Now What?
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mobile-first web app for parents who wake up on a Saturday with no plan and don't want to spend 20 minutes Googling what to do with their kid.
 
-Currently, two official plugins are available:
+You enter your child's age and location, pick going out or staying in, and get one AI-generated activity suggestion based on real weather and nearby venues. That's it.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Live site:** https://now-what-xi.vercel.app/
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Built with
 
-## Expanding the ESLint configuration
+- React + Vite
+- Framer Motion — screen transitions and button interactions
+- Tailwind CSS
+- Claude API (claude-sonnet-4-6) — activity suggestion generation
+- Google Places API — nearby venue discovery
+- Open-Meteo — real-time weather
+- National Weather Service API — weather alerts
+- Express proxy server — keeps API keys server-side
+- Vercel — deployment
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## How it works
+
+The app passes the child's age, current weather, location, nearby venues, and indoor/outdoor preference into a carefully engineered system prompt. Claude returns one warm, educational, age-appropriate suggestion in two sentences.
+
+Age-specific safety parameters are built into the system prompt — no suggestions with choking hazards, unsafe materials, or activities inappropriate for the stated age.
+
+## Run locally
+
+You'll need API keys for Anthropic and Google Places. Add them to a `.env` file — see `.env.example` for the required variables.
+
+```
+npm install
+npm run server   # start the Express proxy on port 3001
+npm run dev      # start the Vite dev server
+```
+
+## Built using AI tooling
+
+This app was built using Claude Code, Figma MCP, and the Anthropic API — no code written manually. The system prompt, safety parameters, and product decisions are documented in the case study above.
