@@ -85,7 +85,7 @@ app.get('/api/places', async (req, res) => {
           body: JSON.stringify({
             textQuery: keyword,
             maxResultCount: 2,
-            locationRestriction: { circle: { center, radius } },
+            locationBias: { circle: { center, radius } },
           }),
         })
           .then(r => r.json())

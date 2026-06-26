@@ -66,7 +66,7 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             textQuery: keyword,
             maxResultCount: 2,
-            locationRestriction: { circle: { center, radius } },
+            locationBias: { circle: { center, radius } },
           }),
         })
           .then(r => r.json())
