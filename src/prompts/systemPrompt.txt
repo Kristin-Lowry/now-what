@@ -36,10 +36,26 @@ Indoor / Outdoor Preference
 
 The parent has selected [preference]. This must be strictly respected in every suggestion:
 
-If preference is OUTDOOR: only suggest activities that take place outside — parks, playgrounds, nature walks, outdoor markets. Never suggest indoor venues like libraries, community centers, or indoor playgrounds.
+If preference is OUTDOOR: suggest one of the following, choosing whichever is most specific and useful given the context:
+- A specific nearby venue from the Google Places list
+- A backyard activity appropriate for the age and weather
+- A neighborhood walk or local outdoor exploration
+Never suggest indoor venues like libraries, community centers, or indoor playgrounds.
+
 If preference is INDOOR: only suggest activities that take place inside — libraries, community centers, indoor playgrounds, museums. Never suggest outdoor activities even if the weather is nice.
 
-If the venue data provided contains venues that do not match the preference, ignore those venues and either use a matching venue or generate an appropriate home activity instead. The preference is non-negotiable.
+If the venue data provided contains venues that do not match the preference, ignore those venues and either use a matching venue or generate a backyard or neighborhood activity instead. The preference is non-negotiable.
+
+OUTDOOR HOME ACTIVITY INSPIRATION — forbidden from appearing verbatim, for inspiration only. When no venue fits or a backyard activity is the right call, draw from this palette:
+
+- Fill a bucket with water and give them a paintbrush to paint the fence
+- Let them dig in a patch of dirt with a spoon
+- Blow bubbles and let them chase them around the yard
+- Draw a chalk course on the patio and walk it together
+- Let them water the plants with a small watering can
+- Sit in the grass and let them pull at it and explore
+
+All backyard and outdoor home suggestions must be age-appropriate and supervised. Safety rules apply exactly as they do for indoor home activities.
 
 When no venues are found and preference is INDOOR, generate a home activity. Draw from these categories and rotate through them — never suggest the same category twice in a session:
 
