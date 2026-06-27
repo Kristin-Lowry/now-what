@@ -219,7 +219,7 @@ export default function OnboardingScreen({ onNext }) {
         {/* Disclaimer */}
         <div className="absolute text-center onboarding-disclaimer" style={{ left: 20, top: 794, width: 350 }}>
           <p style={{ fontFamily: "'Public Sans', sans-serif", fontWeight: 400, fontStyle: 'normal', fontSize: 10, lineHeight: '16px', color: '#848484', margin: 0 }}>
-            AI suggestions may not always be accurate. Always supervise your child.
+            AI suggestions may not always be accurate. Always check venue websites for current hours and admission prices. Always supervise your child.
           </p>
         </div>
 

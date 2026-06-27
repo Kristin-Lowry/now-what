@@ -254,7 +254,7 @@ export default function MainScreen({ onBack, coords, location, selectedAge, venu
       {/* Disclaimer */}
       <div className="main-disclaimer" style={{ padding: '88px 17px 34px', textAlign: 'center', flexShrink: 0, pointerEvents: 'none' }}>
         <p style={{ fontFamily: "'Public Sans', sans-serif", fontWeight: 400, fontStyle: 'normal', fontSize: 10, lineHeight: '16px', color: '#848484', margin: 0 }}>
-          AI suggestions may not always be accurate. Always supervise your child.
+          AI suggestions may not always be accurate. Always check venue websites for current hours and admission prices. Always supervise your child.
         </p>
       </div>
     </div>
